@@ -11,5 +11,16 @@
 |
 */
 
-Route::get('material.min.css.template', 'ThemesManagementController@template');
+Route::get('', "WelcomeController@index");
+Route::get('login', "Auth\LoginController@showLoginForm")->name('login');
+Route::post('login', "Auth\LoginController@login");
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
+Route::middleware(['canRedactTests'])->group(function (){
+    Route::get("edit_tests", "TestRedactorController@index");
+    Route::get('edit_tests/make_test',"TestRedactorController@showMakeNewTest");
+    Route::put('edit_tests/make_test',"TestRedactorController@makeNewTest");
+    Route::get('edit_tests/{id}', "TestRedactorController@showEditTest");
+    Route::post('edit_tests/{id}', "TestRedactorController@editTest");
+    Route::get('edit_tests/{id}/questions', "TestRedactorController@showEditQuestions");
+});
